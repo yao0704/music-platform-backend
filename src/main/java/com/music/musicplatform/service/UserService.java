@@ -5,4 +5,7 @@ import com.music.musicplatform.domain.User;
 public interface UserService {
     void register(User user);
     String login(String username, String password);
+    // 新增
+    User getInfo(Long id);
+    void updateInfo(User user);
 }

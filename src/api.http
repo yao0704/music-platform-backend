@@ -20,47 +20,65 @@ Content-Type: application/json
   "username": "wangwu",
   "password": "123456"
 }
-### 1. 不带token访问（预期401，验证拦截器）
-GET http://localhost:3471/songList/list
+### 获取我的信息
+GET http://localhost:3471/user/info
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTY5NzAsImV4cCI6MTc4OTMwMzM3MH0.0PHX9X0MGsRPLynnGNRp02-iP6y1orr3Mvg4G-e66p8
 
-### 2. 带token查看我的歌单（预期200，空数组）
-GET http://localhost:3471/songList/list
-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
-
-### 3. 带token创建歌单
-POST http://localhost:3471/songList/add
+### 修改我的信息
+PUT http://localhost:3471/user/info
 Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTY5NzAsImV4cCI6MTc4OTMwMzM3MH0.0PHX9X0MGsRPLynnGNRp02-iP6y1orr3Mvg4G-e66p8
 
 {
-  "title": "我的最爱",
-  "description": "喜欢的歌"
+  "nickname": "新昵称",
+  "gender": 1,
+  "avatar": "http://xxx/avatar.jpg"
 }
 
-### 4. 再查我的歌单（应该有刚创建的）
-GET http://localhost:3471/songList/list
-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
-
-### 5. 往歌单加歌（songListId 用第4步返回的id，songId用1）
-POST http://localhost:3471/songList/addSong
-Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
-
-{
-  "songListId": 1,
-  "songId": 1
-}
-
-### 6. 查看歌单里的歌曲（id 用歌单的id）
-GET http://localhost:3471/songList/1/songs
-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig"
-
-### 7. 重复加同一首歌（预期报错"歌曲已在歌单中"）
-POST http://localhost:3471/songList/addSong
-Content-Type: application/json
-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
-
-{
-  "songListId": 1,
-  "songId": 1
-}
+### 再获取（验证修改成功）
+GET http://localhost:3471/user/info
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTY5NzAsImV4cCI6MTc4OTMwMzM3MH0.0PHX9X0MGsRPLynnGNRp02-iP6y1orr3Mvg4G-e66p8
+#### 1. 不带token访问（预期401，验证拦截器）
+#GET http://localhost:3471/songList/list
+#
+#### 2. 带token查看我的歌单（预期200，空数组）
+#GET http://localhost:3471/songList/list
+#token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+#
+#### 3. 带token创建歌单
+#POST http://localhost:3471/songList/add
+#Content-Type: application/json
+#token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+#
+#{
+#  "title": "我的最爱",
+#  "description": "喜欢的歌"
+#}
+#
+#### 4. 再查我的歌单（应该有刚创建的）
+#GET http://localhost:3471/songList/list
+#token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+#
+#### 5. 往歌单加歌（songListId 用第4步返回的id，songId用1）
+#POST http://localhost:3471/songList/addSong
+#Content-Type: application/json
+#token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+#
+#{
+#  "songListId": 1,
+#  "songId": 1
+#}
+#
+#### 6. 查看歌单里的歌曲（id 用歌单的id）
+#GET http://localhost:3471/songList/1/songs
+#token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig"
+#
+#### 7. 重复加同一首歌（预期报错"歌曲已在歌单中"）
+#POST http://localhost:3471/songList/addSong
+#Content-Type: application/json
+#token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+#
+#{
+#  "songListId": 1,
+#  "songId": 1
+#}

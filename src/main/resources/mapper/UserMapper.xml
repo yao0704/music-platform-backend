@@ -9,4 +9,19 @@
     <select id="selectByUsername" resultType="com.music.musicplatform.domain.User">
         SELECT * FROM user WHERE username = #{username}
     </select>
+    <!-- 新增：根据ID查询 -->
+    <select id="selectById" resultType="com.music.musicplatform.domain.User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!-- 新增：更新昵称、性别、头像 -->
+    <update id="updateById">
+        UPDATE user
+        <set>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

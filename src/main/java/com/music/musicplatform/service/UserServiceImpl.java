@@ -1,4 +1,4 @@
-package com.music.musicplatform.service.impl;
+package com.music.musicplatform.service;
 
 import com.music.musicplatform.common.JwtUtil;
 import com.music.musicplatform.domain.User;
@@ -42,5 +42,24 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("密码错误");
         }
         return jwtUtil.generateToken(user.getId(), user.getUsername());
+
+    }
+    @Override
+    public User getInfo(Long id) {
+        User user = userMapper.selectById(id);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        user.setPassword(null);
+        return user;
+    }
+
+    @Override
+    public void updateInfo(User user) {
+        User exist = userMapper.selectById(user.getId());
+        if (exist == null) {
+            throw new RuntimeException("用户不存在");
+        }
+        userMapper.updateById(user);
     }
 }
