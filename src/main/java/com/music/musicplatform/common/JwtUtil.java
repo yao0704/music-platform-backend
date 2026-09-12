@@ -13,9 +13,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // 密钥：HS256要求至少32个字符
     private static final String SECRET = "music-platform-secret-key-1234567890";
-    // 过期时间：24小时（毫秒）
     private static final long EXPIRE = 1000 * 60 * 60 * 24;
 
     private Key getKey() {
@@ -34,7 +32,7 @@ public class JwtUtil {
     }
 
     // 解析并校验token，无效或过期会抛异常
-    public Claims parseToken(String token) {
+    public  Claims parseToken(String token) {   // ← 去掉了 static，和 generateToken 一致
         return Jwts.parserBuilder()
                 .setSigningKey(getKey())
                 .build()
