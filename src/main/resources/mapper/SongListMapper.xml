@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.music.musicplatform.mapper.SongListMapper">
+    <select id="selectByUserId" resultType="com.music.musicplatform.domain.SongList">
+        SELECT * FROM song_list WHERE user_id = #{userId} ORDER BY create_time DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO song_list (user_id, title, description, cover)
+        VALUES (#{userId}, #{title}, #{description}, #{cover})
+    </insert>
+
+    <select id="selectById" resultType="com.music.musicplatform.domain.SongList">
+        SELECT * FROM song_list WHERE id = #{songListId}
+    </select>
+</mapper>

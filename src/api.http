@@ -1,14 +1,66 @@
-### MV列表
-GET http://localhost:3471/mv/list
+#### MV列表
+#GET http://localhost:3471/mv/list
+#
+#### MV详情
+#GET http://localhost:3471/mv/1
+#
+#### MV按风格筛选
+#GET http://localhost:3471/mv/list?style= 流行
+#
+#### MV不存在（验证异常）
+#GET http://localhost:3471/mv/999
+#
+#### 歌曲列表
+#GET http://localhost:3471/song/list
+### 登录拿token
+POST http://localhost:3471/user/login
+Content-Type: application/json
 
-### MV详情
-GET http://localhost:3471/mv/1
+{
+  "username": "wangwu",
+  "password": "123456"
+}
+### 1. 不带token访问（预期401，验证拦截器）
+GET http://localhost:3471/songList/list
 
-### MV按风格筛选
-GET http://localhost:3471/mv/list?style= 流行
+### 2. 带token查看我的歌单（预期200，空数组）
+GET http://localhost:3471/songList/list
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
 
-### MV不存在（验证异常）
-GET http://localhost:3471/mv/999
+### 3. 带token创建歌单
+POST http://localhost:3471/songList/add
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
 
-### 歌曲列表
-GET http://localhost:3471/song/list
+{
+  "title": "我的最爱",
+  "description": "喜欢的歌"
+}
+
+### 4. 再查我的歌单（应该有刚创建的）
+GET http://localhost:3471/songList/list
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+
+### 5. 往歌单加歌（songListId 用第4步返回的id，songId用1）
+POST http://localhost:3471/songList/addSong
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+
+{
+  "songListId": 1,
+  "songId": 1
+}
+
+### 6. 查看歌单里的歌曲（id 用歌单的id）
+GET http://localhost:3471/songList/1/songs
+token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig"
+
+### 7. 重复加同一首歌（预期报错"歌曲已在歌单中"）
+POST http://localhost:3471/songList/addSong
+Content-Type: application/json
+token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwidXNlcm5hbWUiOiJ3YW5nd3UiLCJpYXQiOjE3ODkyMTE1NzIsImV4cCI6MTc4OTI5Nzk3Mn0.hW5hE3Idw1AJvl_LDYttdklg8ebvL-ejE7pr2F9Mdig
+
+{
+  "songListId": 1,
+  "songId": 1
+}

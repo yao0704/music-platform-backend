@@ -29,6 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             Claims claims = jwtUtil.parseToken(token);
             String subject = claims.getSubject();
             System.out.println(subject);
+            request.setAttribute("userId",subject);
         } catch (Exception e) {
             e.printStackTrace();
 //如果解析过程中没有出现异常说明是登录状态

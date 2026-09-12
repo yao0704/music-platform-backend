@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.music.musicplatform.mapper.ListSongMapper">
+    <!-- 查某个歌单里的所有歌曲（联表查song表） -->
+    <select id="selectSongsByListId" resultType="com.music.musicplatform.domain.Song">
+        SELECT s.* FROM song s
+                            INNER JOIN list_song ls ON s.id = ls.song_id
+        WHERE ls.song_list_id = #{songListId}
+        ORDER BY ls.create_time DESC
+    </select>
+
+    <insert id="insert">
+        INSERT INTO list_song (song_list_id, song_id) VALUES (#{songListId}, #{songId})
+    </insert>
+
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*) FROM list_song WHERE song_list_id = #{songListId} AND song_id = #{songId}
+    </select>
+</mapper>
