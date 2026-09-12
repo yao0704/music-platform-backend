@@ -1,0 +1,14 @@
+### MV列表
+GET http://localhost:3471/mv/list
+
+### MV详情
+GET http://localhost:3471/mv/1
+
+### MV按风格筛选
+GET http://localhost:3471/mv/list?style= 流行
+
+### MV不存在（验证异常）
+GET http://localhost:3471/mv/999
+
+### 歌曲列表
+GET http://localhost:3471/song/list
