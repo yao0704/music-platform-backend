@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.music.musicplatform.mapper.SongMapper">
+    <!-- 歌曲列表，style为null时查全部，否则按风格筛选 -->
+    <select id="selectList" resultType="com.music.musicplatform.domain.Song">
+        SELECT * FROM song
+        <where>
+            <if test="style != null and style != ''">
+                AND style = #{style}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据ID查详情 -->
+    <select id="selectById" resultType="com.music.musicplatform.domain.Song">
+        SELECT * FROM song WHERE id = #{id}
+    </select>
+
+    <!-- 查所有不重复的风格 -->
+    <select id="selectDistinctStyles" resultType="java.lang.String">
+        SELECT DISTINCT style FROM song WHERE style IS NOT NULL
+    </select>
+</mapper>
